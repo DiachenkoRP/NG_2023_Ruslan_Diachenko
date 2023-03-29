@@ -15,6 +15,11 @@ while True:
     listOfElements.append(inputElement)
     counter += 1
 
+listOfUniqueElements = []
+for element in listOfElements:
+    if listOfElements.count(element) == 1:
+        listOfUniqueElements.append(element)
+
 print(uiBorder)
-print( "List of unique elements:\n", set(listOfElements))
+print( "List of unique elements:\n", listOfUniqueElements)
 print(uiBorder)
