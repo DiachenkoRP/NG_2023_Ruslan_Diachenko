@@ -16,5 +16,5 @@ while True:
     counter += 1
 
 print(uiBorder)
-print( "List of unique elements:\n", list( set(listOfElements) ) )
+print( "List of unique elements:\n", set(listOfElements))
 print(uiBorder)
