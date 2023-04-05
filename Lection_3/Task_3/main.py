@@ -1,7 +1,6 @@
 import os
-
 # UI constants
-solidBlock = "u\2588"
+solidBlock = "\u2501"
 
 # UI functions
 def border(block, size):
@@ -13,8 +12,6 @@ def clear_console():
 # Logs functions
 def logInfo(*args):
     print("[Info] ", *args)
-def logWarn(text):
-    print("[Warn] ", text)
 def logErro(text):
     print("[Erro] ", text)
 
@@ -37,7 +34,6 @@ def genBookId(bookCase):
     return bookId
 
 def bookInit(bookCase, bookName = "Example", bookAuthor = "Unknown", bookSheets = 0, bookGenres = [], bookCover = None):
-    
     bookExample = {
                 "bookName":bookName,
                 "bookAuthor":bookAuthor,
@@ -49,7 +45,7 @@ def bookInit(bookCase, bookName = "Example", bookAuthor = "Unknown", bookSheets 
     bookCase[bookId] = bookExample
 
 def addBook(bookCase):
-
+    logInfo("For to add book enter information about book: ")
     bookName = getInputStr("book name")
     bookAuthor = getInputStr("author name")
     bookSheets = getInputNum("sheets in book")
@@ -59,6 +55,7 @@ def addBook(bookCase):
 
 def delBook(bookCase, bookId = 0):
     bookCase.pop(bookId)
+    logInfo("Book has been deleted!")
 
 def editBook(bookCase, bookId):
     editing = 1
@@ -70,7 +67,7 @@ def editBook(bookCase, bookId):
         3. Sheets
         4. Genres
         5. Cover
-        0. Nothind, I want leave!""")
+        0. Nothing, I want leave!""")
             userAction = getInputNum("action")
             match userAction:
                 case 1:
@@ -95,12 +92,22 @@ def editBook(bookCase, bookId):
                     clear_console()
                 case 0:
                     editing = 0
-                    clear_console()
                 case _:
                     logErro("I dont't know it command!")
         else:
             logErro("It's ID not in BookCase!")
             break
+
+def showBookCase(bookCase):
+    logInfo("All books in BookCase: ")
+    for key in bookCase.keys():
+        logInfo(f"""ID: {key}
+Name:{bookCase[key]["bookName"]}
+Author: {bookCase[key]["bookAuthor"]}
+Sheets: {bookCase[key]["bookSheets"]}
+Genres: {bookCase[key]["bookGenres"]}
+Cover: {bookCase[key]["bookCover"]}""")
+        border(solidBlock, 64)
 
 def searchBook(bookCase, bookName):
     for key in bookCase.keys():
@@ -111,11 +118,39 @@ def searchBook(bookCase, bookName):
         else:
             logErro(f"Book {bookName} not in BookCase!")
 
+def choiceMenu(bookCase, userInput):
+        match userInput:
+            case 1:
+                addBook(bookCase)
+                clear_console()
+            case 2:
+                userBookId = getInputNum("book ID for delete")
+                delBook(bookCase, userBookId)
+                clear_console()
+            case 3:
+                userBookId = getInputNum("book ID for edit")
+                editBook(bookCase, userBookId)
+                clear_console()
+            case 4:
+                userBookName = getInputStr("book name for search")
+                searchBook(bookCase, userBookName)
+                clear_console()
+            case 5:
+                showBookCase(bookCase)
+                clear_console()
+            case 6:
+                exit()
+            case _:
+                logErro("I dont't known this command!")
+                clear_console()
 # Main
 myBooks = {}
 bookInit(myBooks)
-logInfo("Welcome to BookCase by DiachenkoRP!")
 while True:
+
+    border(solidBlock, 64)
+    logInfo("Welcome to BookCase by DiachenkoRP!")
+    border(solidBlock, 64)
     logInfo("""Action with BookCase:
     1. Add book
     2. Delete book
@@ -123,33 +158,10 @@ while True:
     4. Search book
     5. Show BookCase
     6. Exit""")
+    border(solidBlock, 64)
     userInput = getInputNum("your choice")
-    match userInput:
-        case 1:
-            addBook(myBooks)
-            clear_console()
-        case 2:
-            userBookId = getInputNum("book ID for delete")
-            delBook(myBooks, userBookId)
-            clear_console()
-        case 3:
-            userBookId = getInputNum("book ID for edit")
-            editBook(myBooks, userBookId)
-            clear_console()
-            break
-        case 4:
-            userBookName = getInputStr("book name for search")
-            searchBook(myBooks, userBookName)
-            clear_console()
-        case 5:
-            logInfo(myBooks)
-            clear_console()
-        case 6:
-            exit()
-        case _:
-            logErro("I dont't known this command!")
-            clear_console()
-
-
+    border(solidBlock, 64)
+    
+    choiceMenu(myBooks, userInput)
 
 
